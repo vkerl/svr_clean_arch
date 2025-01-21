@@ -1,15 +1,15 @@
 use async_trait::async_trait;
-use crate::infrastructure::repositories::auth_repo::AuthRepository;
+use crate::entities::repositories::auth::AuthRepository;
 use crate::entities::services::auth::AuthService;
 use crate::entities::models::auth::AuthLoginParams;
 use std::sync::Arc;
 
 pub struct AuthServiceImpl {
-    pub repo: Arc<AuthRepository>,
+    pub repo: Arc<dyn AuthRepository>,
 }
 
 impl AuthServiceImpl {
-    pub fn new(repo: Arc<AuthRepository>) -> Self {
+    pub fn new(repo: Arc<dyn AuthRepository>) -> Self {
         Self { repo }
     }
 }
