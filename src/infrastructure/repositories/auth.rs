@@ -55,4 +55,25 @@ impl AuthRepository for AuthPostgresRepository {
 
         Ok(user)
     }
+
+    async fn upsert(&self, params: NewUser) -> Result<User, CommonError> {
+        let user = sqlx::query_as::<_, User>(
+            r#"INSERT INTO users (uid, openid, session_key, created_at, updated_at)
+            VALUES ($1, $2, $3, $4, $5)
+            ON CONFLICT (openid) DO UPDATE
+            SET session_key = EXCLUDED.session_key,
+                updated_at = EXCLUDED.updated_at
+            RETURNING id, uid, openid, session_key, created_at, updated_at"#
+        )
+        .bind(params.uid as i32)
+        .bind(&params.openid)
+        .bind(&params.session_key)
+        .bind(&params.created_at)
+        .bind(&params.updated_at)
+        .fetch_one(&*self.db_pool)
+        .await
+        .map_err(CommonError::DatabaseError)?;
+
+        Ok(user)
+    }
 }
