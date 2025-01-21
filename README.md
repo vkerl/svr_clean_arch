@@ -1,4 +1,7 @@
+
 # Clean Architecture Server
+
+一个遵循`clean arch`架构原则的Rust服务器实现。
 
 A Rust server implementation following clean architecture principles.
 
