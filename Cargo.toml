@@ -1,5 +1,5 @@
 [package]
-name = "svr_clean_arch"
+name = "svr"
 version = "0.1.0"
 edition = "2021"
 

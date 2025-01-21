@@ -1,7 +1,7 @@
 use std::net::TcpListener;
 use dotenv::dotenv;
 use log::info;
-use svr_clean_arch::{run, infrastructure::utils::logger};
+use svr::{run, infrastructure::utils::logger};
 
 #[tokio::main]
 async fn main() -> std::io::Result<()> {
@@ -16,7 +16,7 @@ async fn main() -> std::io::Result<()> {
     let port = std::env::var("SERVER_PORT").unwrap_or_else(|_| "8080".to_string());
     let db_name = std::env::var("DATABASE_NAME").unwrap_or_else(|_| "postgres".to_string());
     
-    let address = format!("{}:{}", host, port);
+    let address = format!("{}{}", host, port);
     let listener = TcpListener::bind(&address)?;
     
     info!("Starting server on: {}", address);
