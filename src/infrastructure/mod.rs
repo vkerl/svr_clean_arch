@@ -7,6 +7,7 @@ use crate::api;
 
 mod databases;
 pub mod utils;
+pub mod repositories;
 
 async fn health() -> impl Responder {
     HttpResponse::Ok().body("OK")

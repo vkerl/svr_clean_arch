@@ -1,6 +1,5 @@
 use actix_web::web;
 
-pub mod errors;
 pub mod resp;
 pub mod dto;
 pub mod controllers;

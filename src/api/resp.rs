@@ -3,6 +3,7 @@ use std::fmt::Display;
 use serde::Serialize;
 use serde_json::to_string;
 use actix_web::{body::BoxBody, error, http::header::ContentType, web, HttpRequest, HttpResponse, Responder};
+use crate::entities::errors::CommonError;
 
 #[derive(Debug, Serialize)]
 pub struct Resp<T> {
@@ -56,3 +57,11 @@ impl error::ResponseError for Resp<()> {
 pub type ErrResp = Resp<()>;
 
 pub type ApiResult<T> = Result<web::Json<Resp<T>>, ErrResp>;
+
+
+
+impl Into<ErrResp> for CommonError {
+    fn into(self) -> ErrResp {
+        ErrResp { code:  self.status_code(), msg: format!("{}", self), data: None }
+    }
+}
