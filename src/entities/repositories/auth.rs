@@ -12,4 +12,5 @@ pub trait AuthRepository: Send + Sync {
     async fn create(&self, params: NewUser) -> Result<(), CommonError>;
     async fn get_by_openid(&self, openid: &str) -> Result<Option<User>, CommonError>;
     async fn get_by_uid(&self, uid: u32) -> Result<Option<User>, CommonError>;
+    async fn upsert(&self, params: NewUser) -> Result<User, CommonError>;
 }
