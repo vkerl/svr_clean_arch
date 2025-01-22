@@ -3,7 +3,7 @@ use actix_web::{dev::Server, http::header, middleware::Logger, web::{self, Servi
 use actix_cors::Cors;
 use log::info;
 
-use crate::api;
+use crate::{api, app_state::AppState};
 
 mod databases;
 pub mod utils;
@@ -33,7 +33,9 @@ pub async fn server(listener: TcpListener, db_name: &str) -> Result<Server, std:
 
     let _ = env_logger::try_init();
 
-    // let pool = Arc::new(databases::postgresql::db_pool(db_name).await);
+    let pool = Arc::new(databases::postgresql::db_pool(db_name).await);
+
+    let app_data = web::Data::new(AppState::new(pool.clone()));
 
     let port = listener.local_addr().unwrap().port();
 
@@ -41,7 +43,7 @@ pub async fn server(listener: TcpListener, db_name: &str) -> Result<Server, std:
         App::new()
         .wrap(cors())
             .wrap(Logger::default())
-            // .app_data(pool.clone())
+            .app_data(app_data.clone())
             .configure(check_health)
             .configure(api::routes)
         })

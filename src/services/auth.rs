@@ -1,7 +1,8 @@
 use async_trait::async_trait;
+use crate::entities::errors::CommonError;
 use crate::entities::repositories::auth::AuthRepository;
 use crate::entities::services::auth::AuthService;
-use crate::entities::models::auth::AuthLoginParams;
+use crate::entities::models::auth::{AuthLoginParams, AuthLoginResult};
 use std::sync::Arc;
 
 pub struct AuthServiceImpl {
@@ -16,7 +17,9 @@ impl AuthServiceImpl {
 
 #[async_trait]
 impl AuthService for AuthServiceImpl {
-    async fn login(&self, params: AuthLoginParams) {
+    async fn login(&self, params: AuthLoginParams) -> Result<AuthLoginResult, CommonError> {
         // TODO: 实现登录逻辑
+
+        Ok(AuthLoginResult { token: "aabbccdd".to_string(), uid: 110 })
     }
 }

@@ -1,7 +1,7 @@
 use chrono;
 use jsonwebtoken::{decode, encode, Algorithm, DecodingKey, EncodingKey, Header, Validation};
 
-use crate::domain::models::{auth::JwtPayload, user::User};
+use crate::entities::models::{auth::JwtPayload, user::User};
 
 pub fn decode_jwt_token(
     token: &str,

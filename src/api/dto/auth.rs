@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::entities::models::auth::AuthLoginParams;
+use crate::entities::models::auth::{AuthLoginParams, AuthLoginResult};
 
 
 #[derive(Debug, Deserialize)]
@@ -19,6 +19,16 @@ impl Into<AuthLoginParams> for LoginDto {
 }
 
 #[derive(Debug, Serialize)]
-pub struct UserDto {
+pub struct TokenDto {
+    pub token: String,
     pub uid: u32,
+}
+
+impl Into<TokenDto> for AuthLoginResult {
+    fn into(self) -> TokenDto {
+        TokenDto {
+            token: self.token,
+            uid: self.uid,
+        }
+    }
 }
